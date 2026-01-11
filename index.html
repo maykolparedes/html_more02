@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>1 Mes Contigo ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css?family=Sacramento" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+
+<style>
+* { 
+  box-sizing: border-box; 
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Sacramento', cursive;
+  background: linear-gradient(135deg, #fbd3e9, #fce7e9, #ffd6e0);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* ================= FONDO ANIMADO ================= */
+.background-hearts {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.floating-heart {
+  position: absolute;
+  font-size: 24px;
+  opacity: 0;
+  animation: floatUp 8s linear infinite;
+  z-index: 1;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* ================= SOBRE MEJORADO ================= */
+.valentines-day {
+  position: relative;
+  cursor: pointer;
+  transform: scale(0.85);
+  transition: transform 0.5s ease;
+  z-index: 10;
+}
+
+.valentines-day:hover {
+  transform: scale(0.9);
+  filter: drop-shadow(0 0 30px rgba(255, 105, 180, 0.6));
+}
+
+.envelope {
+  position: relative;
+  filter: drop-shadow(0 0 25px rgba(255, 105, 180, 0.5));
+  transition: all 0.5s ease;
+}
+
+.envelope:before {
+  content:"";
+  position: absolute;
+  width:240px;
+  height:240px;
+  background: linear-gradient(45deg, #ff8fa3, #ff6b9d);
+  transform: rotate(-45deg);
+  border-radius: 0 15px 0 0;
+  left:-30px;
+  top:-75px;
+  transition: all 0.3s ease;
+}
+
+.envelope:after {
+  content:"";
+  position: absolute;
+  background: linear-gradient(45deg, #ff8fa3, #ff6b9d);
+  width:340px;
+  height:210px;
+  left:-85px;
+  top:45px;
+  border-radius: 0 0 10px 10px;
+}
+
+.heart {
+  position: relative;
+  background: linear-gradient(45deg, #e01911, #ff4757);
+  width:160px;
+  height:160px;
+  top:50px;
+  transform: rotate(-45deg);
+  transition: all 0.5s ease;
+  animation: heartbeat 1.5s ease infinite;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: rotate(-45deg) scale(1); }
+  50% { transform: rotate(-45deg) scale(1.1); }
+}
+
+.heart:before,
+.heart:after {
+  content:"";
+  background: linear-gradient(45deg, #e01911, #ff4757);
+  border-radius:50%;
+  width:160px;
+  height:160px;
+  position:absolute;
+}
+
+.heart:before { top:-80px; }
+.heart:after { left:80px; }
+
+.front {
+  position:absolute;
+  width:0;
+  height:0;
+  border-right:170px solid #ffd6dc;
+  border-top:105px solid transparent;
+  border-bottom:105px solid transparent;
+  top:45px;
+  left:75px;
+}
+
+.front:before {
+  content:"";
+  position:absolute;
+  border-left:170px solid #ffd6dc;
+  border-top:105px solid transparent;
+  border-bottom:105px solid transparent;
+  top:-105px;
+  left:-155px;
+}
+
+.front:after {
+  content:"";
+  position:absolute;
+  border-bottom:135px solid #ffe9ed;
+  border-left:160px solid transparent;
+  border-right:160px solid transparent;
+  top:-30px;
+  left:-155px;
+}
+
+.text {
+  position:absolute;
+  top:80px; /* Bajado un poco más */
+  left:20px;
+  font-family: 'Dancing Script', cursive;
+  letter-spacing:2px;
+  color:white;
+  text-align:center;
+  font-size:28px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  z-index: 5;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+/* ================= CARTA MEJORADA ================= */
+#card {
+  position: fixed;
+  width: 92%;
+  max-width: 500px;
+  height: 85vh;
+  max-height: 700px;
+  background: linear-gradient(135deg, #fff5f7, #fff);
+  border-radius: 25px;
+  box-shadow: 
+    0 25px 60px rgba(255, 105, 180, 0.3),
+    inset 0 0 30px rgba(255, 255, 255, 0.8);
+  visibility: hidden;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  transform: translateY(20px);
+  transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 100;
+}
+
+#card.visible {
+  transform: translateY(0);
+}
+
+/* ================= PAGINAS MEJORADAS ================= */
+.pages-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.page.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.page.previous {
+  transform: translateX(-100%);
+}
+
+/* ================= CONTENIDO MEJORADO ================= */
+.page-content {
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* MARCO VERTICAL MEJORADO */
+.media-frame {
+  width: 85%;
+  max-width: 350px;
+  height: 450px; /* Más alto para formato vertical */
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(255, 105, 180, 0.25);
+  border: 5px solid #ffd6e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0 20px 0;
+  padding: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efecto decorativo del marco */
+.media-frame:before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #ff5c8a, #ff8fa3, #ff5c8a);
+  border-radius: 22px;
+  z-index: -1;
+}
+
+/* Contenedor interno para la imagen/video */
+.media-container {
+  width: 85%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  overflow: hidden;
+  background: #f8f8f8;
+}
+
+.page-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Para imágenes verticales */
+  border-radius: 15px;
+  transition: transform 0.5s ease;
+}
+
+.page-img:hover {
+  transform: scale(1.05);
+}
+
+.page-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+h2 {
+  color: #ff5c8a;
+  font-size: 2.8em;
+  margin: 10px 0 15px 0;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  font-family: 'Dancing Script', cursive;
+  position: relative;
+  display: inline-block;
+}
+
+h2:after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 10%;
+  width: 80%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #ff5c8a, transparent);
+}
+
+p {
+  font-size: 1.6em;
+  line-height: 1.6;
+  color: #666;
+  margin: 15px 0;
+  font-family: 'Sacramento', cursive;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 15px 20px;
+  border-radius: 15px;
+  border-left: 4px solid #ff5c8a;
+  width: 90%;
+  max-width: 400px;
+}
+
+/* ================= BOTON MEJORADO ================= */
+#next {
+  border: none;
+  background: linear-gradient(45deg, #ff5c8a, #ff8fa3);
+  color: white;
+  padding: 16px 25px;
+  font-size: 1.4em;
+  cursor: pointer;
+  font-family: 'Dancing Script', cursive;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  border-radius: 0 0 23px 23px;
+  box-shadow: 0 -5px 20px rgba(255, 92, 138, 0.3);
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+  margin-top: auto;
+}
+
+#next:hover {
+  background: linear-gradient(45deg, #ff8fa3, #ff5c8a);
+  transform: translateY(-2px);
+  box-shadow: 0 -7px 25px rgba(255, 92, 138, 0.4);
+}
+
+#next:active {
+  transform: translateY(0);
+}
+
+#next:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: 0.5s;
+}
+
+#next:hover:before {
+  left: 100%;
+}
+
+/* ================= RESPONSIVE MEJORADO ================= */
+@media (max-width: 600px){
+  .text {
+    font-size: 24px;
+    left: 15px;
+    top: 75px; /* Bajado para móvil también */
+  }
+  
+  h2 { 
+    font-size: 2.3em; 
+    margin: 8px 0 12px 0;
+  }
+  
+  p { 
+    font-size: 1.4em;
+    padding: 12px 16px;
+    margin: 12px 0;
+  }
+  
+  #card {
+    width: 95%;
+    height: 80vh;
+    border-radius: 20px;
+  }
+  
+  .page {
+    padding: 12px;
+  }
+  
+  .media-frame {
+    width: 95%;
+    max-width: 320px;
+    height: 220px;
+    margin: 8px 0 15px 0;
+  }
+  
+  #next {
+    padding: 14px 20px;
+    font-size: 1.3em;
+  }
+}
+
+@media (max-width: 480px){
+  .text {
+    font-size: 22px;
+    top: 70px;
+  }
+  
+  .media-frame {
+    max-width: 280px;
+    height: 200px;
+  }
+  
+  h2 {
+    font-size: 2em;
+    margin: 5px 0 10px 0;
+  }
+  
+  p {
+    font-size: 1.3em;
+    padding: 10px 14px;
+  }
+}
+
+@media (max-height: 700px) {
+  .media-frame {
+    height: 200px;
+    max-width: 300px;
+  }
+  
+  h2 {
+    font-size: 2.2em;
+    margin: 5px 0 10px 0;
+  }
+  
+  p {
+    font-size: 1.4em;
+    margin: 10px 0;
+  }
+  
+  .page {
+    padding: 12px;
+  }
+}
+
+@media (max-height: 600px) {
+  .media-frame {
+    height: 180px;
+    max-width: 280px;
+  }
+  
+  h2 {
+    font-size: 1.9em;
+  }
+  
+  p {
+    font-size: 1.3em;
+    padding: 8px 12px;
+  }
+  
+  .text {
+    top: 70px;
+  }
+}
+
+@media (max-height: 500px) {
+  .media-frame {
+    height: 150px;
+    max-width: 250px;
+  }
+  
+  h2 {
+    font-size: 1.7em;
+  }
+  
+  p {
+    font-size: 1.2em;
+    padding: 6px 10px;
+  }
+}
+
+@keyframes fall {
+  to { 
+    transform: translateY(600px) rotate(720deg); 
+    opacity: 0; 
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+/* Animación especial para el marco */
+@keyframes frameGlow {
+  0%, 100% { box-shadow: 0 15px 35px rgba(255, 105, 180, 0.25); }
+  50% { box-shadow: 0 15px 45px rgba(255, 105, 180, 0.4); }
+}
+
+.media-frame {
+  animation: frameGlow 3s ease-in-out infinite;
+}
+</style>
+</head>
+
+<body>
+
+<!-- CORAZONES FLOTANTES -->
+<div class="background-hearts" id="backgroundHearts"></div>
+
+<!-- SOBRE -->
+<div class="valentines-day">
+  <div class="envelope"></div>
+  <div class="heart"></div>
+  <div class="text">Para Ti<br>Anyela ❤️</div>
+  <div class="front"></div>
+</div>
+
+<!-- CARTA -->
+<div id="card">
+  <div class="pages-container">
+    <div class="page active">
+      <div class="page-content">
+        <h2>Feliz 1 Mes ❤️</h2>
+        <div class="media-frame">
+          <div class="media-container">
+            <img class="page-img" src="img/foto01.jpeg" alt="Nuestro primer mes" onerror="handleImageError(this)">
+          </div>
+        </div>
+        <p>
+          Anyela…<br><br>
+          Este primer mes contigo ha sido
+          una de las cosas más bonitas que me
+          ha regalado la vida. Cada día a tu lado es un sueño hecho realidad.
+        </p>
+      </div>
+    </div>
+
+    <div class="page">
+      <div class="page-content">
+        <h2>Nuestros Momentos</h2>
+        <div class="media-frame">
+          <div class="media-container">
+            <img class="page-img" src="img/foto02.jpeg" alt="Momentos especiales" onerror="handleImageError(this)">
+          </div>
+        </div>
+        <p>
+          Cada momento contigo es un recuerdo
+          que quiero guardar para siempre en mi corazón.
+          Tu risa, tus miradas, todo contigo es perfecto.
+        </p>
+      </div>
+    </div>
+
+    <div class="page">
+      <div class="page-content">
+        <h2>Contigo ❤️</h2>
+        <div class="media-frame">
+          <div class="media-container">
+            <img class="page-img" src="img/foto03.jpeg" alt="Juntos siempre" onerror="handleImageError(this)">
+          </div>
+        </div>
+        <p>
+          Gracias por llegar a mi vida
+          y llenarla de amor, alegría y momentos inolvidables.
+          Eres mi razón para sonreír cada día.
+        </p>
+      </div>
+    </div>
+
+    <div class="page">
+      <div class="page-content">
+        <h2>Nuestro Video 💕</h2>
+        <div class="media-frame">
+          <div class="media-container">
+            <video class="page-video" src="video/recuerdo.mp4" autoplay muted loop playsinline onerror="handleVideoError(this)">
+              <source src="video/recuerdo.mp4" type="video/mp4">
+              Tu navegador no soporta videos.
+            </video>
+          </div>
+        </div>
+        <p>
+          Gracias por este primer mes de felicidad absoluta.<br>
+          Que vengan muchos más contigo, mi amor.<br>
+          Te quiero muchísimo.
+        </p>
+      </div>
+    </div>
+
+    <div class="page">
+      <div class="page-content">
+        <h2>Siempre Juntos 💖</h2>
+        <div class="media-frame">
+          <div class="media-container">
+            <img class="page-img" src="img/imagen04.png" alt="Amor eterno" onerror="handleImageError(this)">
+          </div>
+        </div>
+        <p>
+          Te amo con todo mi corazón, Anyela.<br>
+          Este es solo el comienzo de nuestra eternidad juntos.<br>
+          ¡Feliz primer mes, mi amor!
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <button id="next">Siguiente 💖</button>
+</div>
+
+<script>
+// Variables globales
+let currentPage = 0;
+const pages = document.querySelectorAll(".page");
+const totalPages = pages.length;
+const backgroundHearts = document.getElementById('backgroundHearts');
+const card = document.getElementById('card');
+
+// Función para manejar errores en imágenes
+function handleImageError(img) {
+  console.log('Imagen no encontrada:', img.src);
+  // Crear un placeholder bonito
+  const placeholder = document.createElement('div');
+  placeholder.style.width = '100%';
+  placeholder.style.height = '100%';
+  placeholder.style.display = 'flex';
+  placeholder.style.flexDirection = 'column';
+  placeholder.style.justifyContent = 'center';
+  placeholder.style.alignItems = 'center';
+  placeholder.style.background = 'linear-gradient(45deg, #ffd6e0, #ffedf0)';
+  placeholder.style.color = '#ff5c8a';
+  placeholder.style.fontFamily = "'Dancing Script', cursive";
+  placeholder.style.fontSize = '1.5em';
+  placeholder.style.textAlign = 'center';
+  placeholder.style.padding = '20px';
+  placeholder.style.borderRadius = '15px';
+  
+  const heart = document.createElement('div');
+  heart.style.fontSize = '3em';
+  heart.style.marginBottom = '10px';
+  heart.innerHTML = '💖';
+  
+  const text = document.createElement('div');
+  text.innerHTML = 'Nuestro Recuerdo<br>Especial';
+  
+  placeholder.appendChild(heart);
+  placeholder.appendChild(text);
+  
+  img.parentNode.replaceChild(placeholder, img);
+}
+
+// Función para manejar errores en videos
+function handleVideoError(video) {
+  console.log('Video no encontrado:', video.src);
+  // Crear un placeholder para el video
+  const placeholder = document.createElement('div');
+  placeholder.style.width = '100%';
+  placeholder.style.height = '100%';
+  placeholder.style.display = 'flex';
+  placeholder.style.flexDirection = 'column';
+  placeholder.style.justifyContent = 'center';
+  placeholder.style.alignItems = 'center';
+  placeholder.style.background = 'linear-gradient(45deg, #ff5c8a, #ff8fa3)';
+  placeholder.style.color = 'white';
+  placeholder.style.fontFamily = "'Dancing Script', cursive";
+  placeholder.style.fontSize = '1.8em';
+  placeholder.style.textAlign = 'center';
+  placeholder.style.padding = '20px';
+  placeholder.style.borderRadius = '15px';
+  
+  const heart = document.createElement('div');
+  heart.style.fontSize = '3em';
+  heart.style.marginBottom = '15px';
+  heart.innerHTML = '🎬💕';
+  
+  const text = document.createElement('div');
+  text.innerHTML = 'Nuestro Video<br>Especial';
+  
+  placeholder.appendChild(heart);
+  placeholder.appendChild(text);
+  
+  video.parentNode.replaceChild(placeholder, video);
+}
+
+// Crear corazones flotantes
+function createFloatingHearts() {
+  backgroundHearts.innerHTML = '';
+  
+  const heartCount = 15;
+  
+  for (let i = 0; i < heartCount; i++) {
+    setTimeout(() => {
+      const heart = document.createElement('div');
+      heart.className = 'floating-heart';
+      heart.innerHTML = '💖';
+      
+      // Tamaño aleatorio
+      const size = Math.random() * 30 + 20;
+      heart.style.fontSize = `${size}px`;
+      
+      // Posición inicial aleatoria
+      heart.style.left = `${Math.random() * 100}%`;
+      
+      // Retraso y duración aleatorios
+      const delay = Math.random() * 5;
+      const duration = Math.random() * 4 + 6;
+      heart.style.animationDelay = `${delay}s`;
+      heart.style.animationDuration = `${duration}s`;
+      
+      // Color aleatorio (rosas y rojos)
+      const colors = ['#ff5c8a', '#ff8fa3', '#ff4757', '#ff6b9d'];
+      heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+      
+      backgroundHearts.appendChild(heart);
+    }, i * 200);
+  }
+}
+
+// Crear efecto de confeti al abrir la carta
+function createConfetti() {
+  const confettiCount = 50;
+  
+  for (let i = 0; i < confettiCount; i++) {
+    setTimeout(() => {
+      const confetti = document.createElement('div');
+      confetti.innerHTML = '💖';
+      confetti.style.position = 'fixed';
+      confetti.style.fontSize = `${Math.random() * 20 + 15}px`;
+      confetti.style.left = `${Math.random() * 100}%`;
+      confetti.style.top = '-50px';
+      confetti.style.opacity = '0.8';
+      confetti.style.zIndex = '9999';
+      confetti.style.pointerEvents = 'none';
+      confetti.style.animation = `fall ${Math.random() * 2 + 1}s linear forwards`;
+      
+      // Color aleatorio
+      const colors = ['#ff5c8a', '#ff8fa3', '#ff4757', '#ff6b9d', '#ffd166'];
+      confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
+      
+      document.body.appendChild(confetti);
+      
+      // Remover después de la animación
+      setTimeout(() => {
+        if (confetti.parentNode) {
+          confetti.remove();
+        }
+      }, 3000);
+    }, i * 30);
+  }
+}
+
+// Animación para caída
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes fall {
+    to {
+      transform: translateY(100vh) rotate(720deg);
+      opacity: 0;
+    }
+  }
+`;
+document.head.appendChild(style);
+
+// Abrir carta
+document.querySelector('.valentines-day').addEventListener('click', function() {
+  const envelope = document.querySelector('.envelope');
+  const valentinesDay = document.querySelector('.valentines-day');
+  
+  // Animación del sobre cayendo
+  envelope.style.animation = 'fall 2.5s linear forwards';
+  
+  // Crear confeti
+  createConfetti();
+  
+  // Esperar y mostrar carta
+  setTimeout(() => {
+    valentinesDay.style.opacity = '0';
+    valentinesDay.style.transform = 'scale(0.5)';
+    
+    // Mostrar carta con animación
+    card.style.visibility = 'visible';
+    card.style.opacity = '1';
+    card.classList.add('visible');
+    
+    // Actualizar botón
+    updateButtonText();
+    
+  }, 700);
+});
+
+// Cambiar página
+document.getElementById('next').addEventListener('click', function() {
+  if (currentPage < totalPages - 1) {
+    // Marcar página actual como anterior
+    pages[currentPage].classList.remove('active');
+    pages[currentPage].classList.add('previous');
+    
+    // Ir a siguiente página
+    currentPage++;
+    pages[currentPage].classList.add('active');
+    
+    // Actualizar texto del botón
+    updateButtonText();
+    
+    // Crear algunos corazones adicionales
+    createFloatingHearts();
+  }
+});
+
+// Actualizar texto del botón
+function updateButtonText() {
+  const button = document.getElementById('next');
+  if (currentPage === totalPages - 1) {
+    button.innerHTML = 'Siempre Contigo ❤️';
+    button.style.background = 'linear-gradient(45deg, #ff4757, #ff5c8a)';
+  } else {
+    button.innerHTML = 'Siguiente 💖';
+  }
+}
+
+// Inicializar corazones flotantes
+createFloatingHearts();
+
+// Crear corazones periódicamente
+setInterval(createFloatingHearts, 12000);
+
+// Cuando se cargue la página
+window.addEventListener('load', function() {
+  // Añadir animación de flotación al sobre
+  document.querySelector('.valentines-day').style.animation = 'float 3s ease-in-out infinite';
+});
+
+// Añadir soporte para teclado
+document.addEventListener('keydown', function(e) {
+  if (card.style.visibility === 'visible') {
+    if (e.key === 'ArrowRight' || e.key === ' ') {
+      document.getElementById('next').click();
+    }
+  }
+});
+</script>
+
+</body>
+</html>
